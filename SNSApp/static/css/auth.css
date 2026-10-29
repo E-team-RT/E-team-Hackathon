@@ -1,1 +1,12 @@
 /* ログイン・新規登録画面CSS */
+
+.auth-card{
+	max-width: 520px;
+	margin: 0 auto;
+	padding: 24px 16px 40px;
+	border: 3px solid var(--color-accent);
+	border-radius: 16px;
+	background: var(--color-cream);
+}
+
+
