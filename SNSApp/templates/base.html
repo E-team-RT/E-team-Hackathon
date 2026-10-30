@@ -1,13 +1,20 @@
-<!-- 全画面共通の土台となるHTML -->
 
-<!-- おためし表示 -->
 <!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}よりみち{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    {% block page_css %}{% endblock %}
+</head>
+<body>
+    {% include 'common/header.html' %}
 
-<html land="ja">
-    <head>
-        <link rel="stylesheet" href="static/css/base.css">
-    </head>
-    
-    <p>よりみちアプリを作るぞぃ！！</p>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
 
+    {% include 'common/footer.html' %}
+</body>
 </html>
