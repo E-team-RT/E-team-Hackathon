@@ -1,1 +1,40 @@
-<!-- 新規登録画面HTML -->
+{% extends "base.html" %}
+	{#新規登録用の画面#}
+{% block title %}新規登録{% endblock %}
+	{#auth.cssの読み込み#}
+{% block page_css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+{% endblock %}
+
+{% block content %}
+	{#タブ切り替え、新規登録とログインを往来する#}
+<div class="auth-card">
+ <div class="tabs">
+ <a class="tab" href="/login">よりみちをする</a>
+ <a class="tab active" href="/signup">はじめてのよりみち</a>
+    </div> 
+	{#入力内容をPOSTして送る#}
+<form method="POST">
+　    <div class="field">
+        <label for="email">メールアドレス</label>
+        <input type="email" name="email" id="email" placeholder="example@mail.com" >
+    </div>
+    <div class="field">
+        <label for="name">ユーザー名</label>
+        <input type="text" name="name" id="name" placeholder="たろう" >
+    </div>
+    <div class="field">
+        <label for="password">パスワード</label>
+        <input type="password" name="password" id="password" placeholder="パスワード" >
+    </div>
+    <div class="field">
+        <label for="password_confirm">パスワード（かくんにん）</label>
+        <input type="password" name="password_confirm" id="password_confirm" placeholder="かくにん">
+    </div>
+   　　 <button type="submit">よりみちをはじめる</button>
+</form>
+</div>
+{% endblock %}
+
