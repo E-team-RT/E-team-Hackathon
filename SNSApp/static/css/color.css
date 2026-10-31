@@ -1,1 +1,21 @@
-/* 色の設定用CSS */
+/* =========================
+よりみち共通カラー
+========================= */
+:root {
+    /* メインカラー */
+    --color-main: #FF4F50;
+    --color-main-dark: #FA8072;
+
+    /* アクセントカラー */
+    --color-accent: #FFCC66;
+    --color-sky: #99CCFF;
+
+    /* 背景・枠線 */
+    --color-cream: #FFF8DC;
+    --color-background: #FAF0E6;
+    --color-border: #FFA07A;
+
+    /* 文字色 */
+    --color-text: #A0522D;
+    --color-subtext: #CD5C5C;
+}

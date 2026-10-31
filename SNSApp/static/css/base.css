@@ -1,35 +1,18 @@
-
 /* =========================
-   1. よりみち共通カラー
-========================= */
-:root {
-    --color-main: #e5383b;
-    --color-main-dark: #b82326;
-    --color-accent: #f6b93b;
-    --color-cream: #fff4d6;
-    --color-background: #fffdf7;
-    --color-border: #ecdcc0;
-    --color-text: #3a2a1e;
-    --color-subtext: #8a7560;
-}
-
-/* =========================
-   2. ページ全体の基本設定
+ページ全体の基本設定
 ========================= */
 * {
     box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    background: var(--color-background);
+    margin:0;
+    background-image:url("../images/dagashi-bg.jpeg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     color: var(--color-text);
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Hiragino Sans",
-        "Noto Sans JP",
-        sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Noto Sans JP", sans-serif;
     line-height: 1.6;
 }
 
@@ -38,7 +21,7 @@ a {
 }
 
 /* =========================
-   3. ヘッダー
+ヘッダー
 ========================= */
 .site-header {
     background: var(--color-main);
@@ -62,35 +45,7 @@ a {
 }
 
 /* =========================
-   4. ナビゲーション
-========================= */
-.site-nav {
-    display: flex;
-    background: #fff;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.nav-link {
-    flex: 1;
-    padding: 14px 12px;
-    text-align: center;
-    text-decoration: none;
-    font-weight: 700;
-    transition: background-color 0.2s;
-}
-
-.nav-link:hover {
-    background: var(--color-cream);
-}
-
-.nav-link.active {
-    color: var(--color-main-dark);
-    background: var(--color-cream);
-    box-shadow: inset 0 -3px var(--color-main);
-}
-
-/* =========================
-   5. 各ページのメイン領域
+各ページのメイン領域
 ========================= */
 main {
     width: min(100% - 32px, 960px);
@@ -99,7 +54,7 @@ main {
 }
 
 /* =========================
-   6. フッター
+フッター
 ========================= */
 .site-footer {
     padding: 20px 16px;
@@ -117,4 +72,3 @@ main {
     color: var(--color-main-dark);
     font-weight: 600;
 }
-
