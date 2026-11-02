@@ -19,19 +19,20 @@
 <form method="POST">
 　    <div class="field">
         <label for="email">メールアドレス</label>
-        <input type="email" name="email" id="email" placeholder="example@mail.com" >
+        <input type="email" name="email" id="email" placeholder="example@mail.com" required >
+
     </div>
     <div class="field">
         <label for="name">ユーザー名</label>
-        <input type="text" name="name" id="name" placeholder="たろう" >
+        <input type="text" name="name" id="name" placeholder="たろう" required >
     </div>
     <div class="field">
         <label for="password">パスワード</label>
-        <input type="password" name="password" id="password" placeholder="パスワード" >
+        <input type="password" name="password" id="password" placeholder="パスワード" required >
     </div>
     <div class="field">
         <label for="password_confirm">パスワード（かくんにん）</label>
-        <input type="password" name="password_confirm" id="password_confirm" placeholder="かくにん">
+        <input type="password" name="password_confirm" id="password_confirm" placeholder="かくにん" required >
     </div>
    　　 <button type="submit">よりみちをはじめる</button>
 </form>
