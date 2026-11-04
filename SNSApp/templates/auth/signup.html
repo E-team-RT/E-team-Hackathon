@@ -8,6 +8,13 @@
 
 {% endblock %}
 
+{#ヘッダーを空ブロックで上書き#}
+{% block header %}{% endblock %}
+
+{#フッターを空ブロックで上書き#}
+{% block footer %}{% endblock %}
+
+
 {% block content %}
 	{#タブ切り替え、新規登録とログインを往来する#}
 <div class="auth-card">
