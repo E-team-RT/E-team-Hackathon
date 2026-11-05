@@ -257,7 +257,7 @@ def posts_search_by_name():
     for post in posts:
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
         post['name'] = User.get_name_by_id(post['user_id'])
-    return render_template('post/posts_name.html', posts=posts, name=name)
+    return render_template('post/posts.html', posts=posts, name=name)
 
 @app.route('/post/<user_id>', methods=['POST'])
 def search_user():
