@@ -1,1 +1,31 @@
 <!--  投稿・投稿閲覧用HTML -->
+{% extends "base.html" %}
+
+<!-- タイトルをみるに設定 -->
+{% block title %}みる{% endblock %}
+
+<!-- posts.cssを読み込むためのHTMLリンクを作成 -->
+{% block page_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/posts.css') }}">
+{% endblock %}
+
+{% block content %}
+<div>
+  <main>
+    <!-- ユーザー名の検索ウィンドウ -->
+    <section>
+      <h1>ユーザー名でよりみちをしらべる</h1>
+      <form action="/username_search" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="search" name="username_search" placeholder="だれのよりみちをみたい？" required>
+        <div>
+            <button type="submit">
+                みたい
+            </button>
+        </div>
+      </form>
+    </section>
+  </main>
+</div>
+
+{% endblock %}

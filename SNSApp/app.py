@@ -236,7 +236,29 @@ TARGET_TIME = "21:00:00"  # 時:分:秒（24時間表記）
 def rock_view():
     return redirect(url_for('rock_view'))
 
-# ユーザー検索
+# ユーザー名で投稿検索
+@app.route('/username_search', methods=['POST'])
+def posts_search_by_name():
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    name = request.form.get('username_search', '').strip()
+    if name == '':
+        flash('ともだちのなまえが空です', 'error')
+        return redirect(url_for('home'))
+    target_user_id = User.get_by_name(name)
+    if target_user_id is None:
+        flash('ともだちがみつかりません', 'error')
+        return redirect(url_for('home'))
+    posts = Post.get_posts_by_name(name)
+    if not posts:
+        flash('ともだちのよりみちがありません', 'error')
+        return redirect(url_for('home'))        
+    for post in posts:
+        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
+        post['name'] = User.get_name_by_id(post['user_id'])
+    return render_template('post/posts_name.html', posts=posts, name=name)
+
 @app.route('/post/<user_id>', methods=['POST'])
 def search_user():
     user_id = request.form.get('user_search', '').strip()
