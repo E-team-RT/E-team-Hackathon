@@ -246,7 +246,7 @@ def posts_search_by_name():
     if name == '':
         flash('ともだちのなまえが空です', 'error')
         return redirect(url_for('home'))
-    target_user_id = User.get_by_name(name)
+    target_user_id = User.get_id_by_name(name)
     if target_user_id is None:
         flash('ともだちがみつかりません', 'error')
         return redirect(url_for('home'))
@@ -256,7 +256,6 @@ def posts_search_by_name():
         return redirect(url_for('home'))        
     for post in posts:
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
-        post['name'] = User.get_name_by_id(post['user_id'])
     return render_template('post/posts.html', posts=posts, name=name)
 
 @app.route('/post/<user_id>', methods=['POST'])
