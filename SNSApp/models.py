@@ -137,7 +137,12 @@ class Post:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM posts WHERE name=%s AND deleted_at IS NULL;"
+                sql = """SELECT u.id as user_id, u.name, p.id as post_id, p.content,
+                p.category_id, c.category, p.created_at 
+                FROM posts as p 
+                JOIN users as u on p.user_id = u.id
+                JOIN categories as c on p.category_id = c.id
+                WHERE u.name=%s AND p.deleted_at IS NULL;"""
                 cur.execute(sql, (name,))
                 posts = cur.fetchall()
             return posts
