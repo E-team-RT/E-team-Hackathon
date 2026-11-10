@@ -72,3 +72,14 @@ main {
     color: var(--color-main-dark);
     font-weight: 600;
 }
+
+/* =========================
+メディアクエリ 1024px以下の場合、画面背景の設定を固定からスクロールに変更
+========================= */
+@media (max-width: 1024px){
+	body {
+		background-attachment:scroll;
+	
+	}
+}
+
