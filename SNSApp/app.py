@@ -237,9 +237,9 @@ def rock_view():
     return redirect(url_for('rock_view'))
 
 # 動作確認用みるページの表示
-@app.route('/posts', methods=['GET'])
-def posts_view_b():
-    return render_template('post/posts.html')
+@app.route('/home', methods=['GET'])
+def home_view():
+    return render_template('home.html')
 
 # ユーザー名で投稿検索
 @app.route('/username_search', methods=['POST'])
@@ -250,18 +250,18 @@ def posts_search_by_name():
     name = request.form.get('username_search', '').strip()
     if name == '':
         flash('ともだちのなまえが空です', 'error')
-        return redirect(url_for('posts_view_b'))
+        return redirect(url_for('home_view'))
     target_user_id = User.get_id_by_name(name)
     if target_user_id is None:
         flash('ともだちがみつかりません', 'error')
-        return redirect(url_for('posts_view_b'))
+        return redirect(url_for('home_view'))
     posts = Post.get_posts_by_name(name)
     if not posts:
         flash('ともだちのよりみちがありません', 'error')
-        return redirect(url_for('posts_view_b'))        
+        return redirect(url_for('home_view'))        
     for post in posts:
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
-    return render_template('post/posts.html', posts=posts, name=name)
+    return render_template('home.html', posts=posts, name=name, category=category)
 
 @app.route('/post/<user_id>', methods=['POST'])
 def search_user():

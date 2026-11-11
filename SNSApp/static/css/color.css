@@ -2,20 +2,20 @@
 よりみち共通カラー
 ========================= */
 :root {
-    /* メインカラー */
-    --color-main: #FF4F50;
-    --color-main-dark: #FA8072;
+  /* メインカラー */
+  --color-main: #ff4f50;
+  --color-main-dark: #fa8072;
 
-    /* アクセントカラー */
-    --color-accent: #FFCC66;
-    --color-sky: #99CCFF;
+  /* アクセントカラー */
+  --color-accent: #ffcc66;
+  --color-sky: #99ccff;
 
-    /* 背景・枠線 */
-    --color-cream: #FFF8DC;
-    --color-background: #FAF0E6;
-    --color-border: #FFA07A;
+  /* 背景・枠線 */
+  --color-cream: #fff8dc;
+  --color-background: #faf0e6;
+  --color-border: #ffa07a;
 
-    /* 文字色 */
-    --color-text: #A0522D;
-    --color-subtext: #CD5C5C;
+  /* 文字色 */
+  --color-text: #a0522d;
+  --color-subtext: #cd5c5c;
 }
