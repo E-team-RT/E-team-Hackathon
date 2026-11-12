@@ -5,7 +5,7 @@ import hashlib
 import uuid
 import re
 import os
-import datetime
+# import datetime
 import time
 
 from models import User , Post, Comment
@@ -236,7 +236,33 @@ TARGET_TIME = "21:00:00"  # 時:分:秒（24時間表記）
 def rock_view():
     return redirect(url_for('rock_view'))
 
-# ユーザー検索
+# 動作確認用みるページの表示
+@app.route('/home', methods=['GET'])
+def home_view():
+    return render_template('home.html')
+
+# ユーザー名で投稿検索
+@app.route('/username_search', methods=['POST'])
+def posts_search_by_name():
+    # user_id = session.get('user_id')
+    # if user_id is None:
+        # return redirect(url_for('login_view'))
+    name = request.form.get('username_search', '').strip()
+    if name == '':
+        flash('ともだちのなまえが空です', 'error')
+        return redirect(url_for('home_view'))
+    target_user_id = User.get_id_by_name(name)
+    if target_user_id is None:
+        flash('ともだちがみつかりません', 'error')
+        return redirect(url_for('home_view'))
+    posts = Post.get_posts_by_name(name)
+    if not posts:
+        flash('ともだちのよりみちがありません', 'error')
+        return redirect(url_for('home_view'))        
+    for post in posts:
+        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
+    return render_template('home.html', posts=posts, name=name, category=category)
+
 @app.route('/post/<user_id>', methods=['POST'])
 def search_user():
     user_id = request.form.get('user_search', '').strip()
