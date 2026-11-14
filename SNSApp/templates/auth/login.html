@@ -1,1 +1,41 @@
-<!-- ログイン画面HTML -->
+{% extends "base.html" %}
+	{#ログインの画面#}
+{% block title %}ログイン{% endblock %}
+	{#auth.cssの読み込み#}
+{% block page_css %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+
+{% endblock %}
+
+{#ヘッダーを空ブロックで上書き#}
+{% block header %}{% endblock %}
+
+{#フッターを空ブロックで上書き#}
+{% block footer %}{% endblock %}
+
+
+{% block content %}
+	{#タブ切り替え、新規登録とログインを往来する#}
+<div class="auth-card">
+ <div class="tabs">
+ <a class="tab active" href="/login">よりみちをする</a>
+ <a class="tab" href="/signup">はじめてのよりみち</a>
+    </div> 
+	{#入力内容をPOSTして送る#}
+<form method="POST">
+	<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+	<div class="field">
+        <label for="email">メールアドレス</label>
+        <input type="email" name="email" id="email" placeholder="example@mail.com" required  maxlength="254" autocomplete="email">
+
+    </div>
+    <div class="field">
+        <label for="password">パスワード</label>
+        <input type="password" name="password" id="password" placeholder="パスワード" required autocomplete="current-password" maxlength="64" >
+    </div>
+    <button type="submit">よりみちをする</button>
+</form>
+</div>
+{% endblock %}
+
