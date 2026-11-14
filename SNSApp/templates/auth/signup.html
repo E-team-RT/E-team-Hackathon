@@ -16,34 +16,34 @@
 
 
 {% block content %}
-	{#タブ切り替え、新規登録とログインを往来する#}
+{#タブ切り替え、新規登録とログインを往来する#}
 <div class="auth-card">
- <div class="tabs">
- <a class="tab" href="/login">よりみちをする</a>
- <a class="tab active" href="/signup">はじめてのよりみち</a>
-    </div> 
-	{#入力内容をPOSTして送る#}
-<form method="POST">
-	<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+	<div class="tabs">
+		<a class="tab" href="/login">よりみちをする</a>
+		<a class="tab active" href="/signup">はじめてのよりみち</a>
+	</div> 
+{#入力内容をPOSTして送る#}
+		<form method="POST">
+		<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
 	<div class="field">
-        <label for="email">メールアドレス</label>
-        <input type="email" name="email" id="email" placeholder="example@mail.com" required >
+		<label for="email">メールアドレス</label>
+		<input type="email" name="email" id="email" placeholder="example@mail.com" required maxlength="254" >
 
-    </div>
-    <div class="field">
-        <label for="name">ユーザー名</label>
-        <input type="text" name="name" id="name" placeholder="たろう" required >
-    </div>
-    <div class="field">
-        <label for="password">パスワード</label>
-        <input type="password" name="password" id="password" placeholder="パスワード" required >
-    </div>
-    <div class="field">
-        <label for="password_confirm">パスワード（かくにん）</label>
-        <input type="password" name="password_confirm" id="password_confirm" placeholder="かくにん" required >
-    </div>
-   　　 <button type="submit">よりみちをはじめる</button>
-</form>
+	</div>
+	<div class="field">
+        	<label for="name">ユーザー名 2~20もじ</label>
+		<input type="text" name="name" id="name" placeholder="たろう" required maxlength="20" minlength="2" >
+	</div>
+	<div class="field">
+		<label for="password">パスワード 8~64もじ</label>
+		<input type="password" name="password" id="password" placeholder="パスワード" required maxlength="64" minlength="8" >
+	</div>
+	<div class="field">
+		<label for="password_confirm">パスワード 8~64もじ（かくにん）</label>
+		<input type="password" name="password_confirm" id="password_confirm" placeholder="かくにん" required maxlength="64" minlength="8" >
+	</div>
+		<button type="submit">よりみちをはじめる</button>
+		</form>
 </div>
 {% endblock %}
 
