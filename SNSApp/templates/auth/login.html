@@ -27,12 +27,12 @@
 	<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
 	<div class="field">
         <label for="email">メールアドレス</label>
-        <input type="email" name="email" id="email" placeholder="example@mail.com" required >
+        <input type="email" name="email" id="email" placeholder="example@mail.com" required  maxlength="254" autocomplete="email">
 
     </div>
     <div class="field">
         <label for="password">パスワード</label>
-        <input type="password" name="password" id="password" placeholder="パスワード" required autocomplete="current-password">
+        <input type="password" name="password" id="password" placeholder="パスワード" required autocomplete="current-password" maxlength="64" >
     </div>
     <button type="submit">よりみちをする</button>
 </form>
