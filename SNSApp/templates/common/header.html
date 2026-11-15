@@ -1,5 +1,19 @@
 <header class="site-header">
   <div class="header-inner">
-    <a href="#" class="site-logo">🍬 よりみち</a>
+
+    <a href="#" class="site-logo">
+      🍬 よりみち
+    </a>
+
+    {% if session.get('user_id') %}
+    <div class="header-user">
+      <span>⏱ {{ login_duration }}</span>
+
+      <a href="{{ url_for('logout') }}">
+        ログアウト
+      </a>
+    </div>
+    {% endif %}
+
   </div>
 </header>

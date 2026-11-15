@@ -102,6 +102,7 @@ def login_process():
                 flash('メールアドレスorパスワードが違います','error')
             else:
                 session['user_id'] = user["id"]
+                session['login_time'] = datetime.now().isoformat()  # ログイン時間をセッションに保存
                 return redirect(url_for('posts_view'))
     return redirect(url_for('login_view'))
 
@@ -112,7 +113,7 @@ def logout():
     session.clear()
     return redirect(url_for('login_view'))
 
-# カテゴリ選択で投稿を表示
+""" # カテゴリ選択で投稿を表示
 @app.route('/posts/<category>', methods=['GET'])
 def posts_view():
     user_id = session.get('user_id')
@@ -125,7 +126,7 @@ def posts_view():
             # 登校時間がいるか？要検討
             post['user_name'] = User.get_name_by_id(post['user_id'])
 
-        return render_template('post/posts.html', posts=posts, user_id=user_id)
+        return render_template('post/posts.html', posts=posts, user_id=user_id) """
 
 # カテゴリ選択 投稿処理
 @app.route('/posts', methods=['POST'])
@@ -142,7 +143,7 @@ def create_post():
     flash('投稿が完了しました','success')
     return redirect(url_for('posts_view'))
 
-""" # 投稿一覧ページの表示
+# 投稿一覧ページの表示
 @app.route('/posts', methods=['GET'])
 def posts_view():
     user_id = session.get('user_id')
@@ -155,7 +156,7 @@ def posts_view():
             post['user_name'] = User.get_name_by_id(post['user_id'])
 
         return render_template('post/posts.html', posts=posts, user_id=user_id)
- """
+
 
 # 投稿処理
 """ @app.route('/posts', methods=['POST'])
@@ -289,6 +290,34 @@ def page_not_found(error):
 def internal_server_error(error):
     return render_template('error/500.html'),500
 
+@app.context_processor # すべてのHTMLテンプレートで使える変数を作る
+def inject_login_duration():
+
+    # ログイン時間表示用の変数を空で用意
+    login_duration = ""
+
+    # sessionにログイン時間が保存されているか確認
+    if session.get('login_time'):
+
+        # sessionに保存されている文字列をdatetime型に変換
+        login_time = datetime.fromisoformat(
+            session['login_time']
+        )
+
+        # 現在時刻からログイン時刻を引いて経過時間を求める
+        elapsed = datetime.now() - login_time
+
+        # 経過時間の「時間」部分を取り出す
+        hours = elapsed.seconds // 3600
+
+        # 残り秒数から「分」部分を取り出す
+        minutes = (elapsed.seconds % 3600) // 60
+
+        # 「○時間○分」の形式の文字列を作成
+        login_duration = f"{hours}時間{minutes}分"
+
+    # HTMLで {{ login_duration }} として使えるように返す
+    return dict(login_duration=login_duration)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)
