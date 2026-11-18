@@ -1,1 +1,11 @@
-<!--  投稿・投稿閲覧用HTML -->
+{% extends "base.html" %}
+	{#投稿用画面の土台#}
+{% block title %}とうこうしよう{% endblock %}
+	{#posts.cssの読み込み#}
+{% block page_css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/posts.css')}}">
+{% endblock %}
+
+
+{% block content %}
+{% endblock %}
