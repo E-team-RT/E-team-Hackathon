@@ -79,5 +79,11 @@ VALUES ('カテゴリ1'), ('カテゴリ2'), ('カテゴリ3'), ('カテゴリ4'
 -- ユーザー名を初期設定
 INSERT INTO users (name, email, password)
 VALUES 
-  ('山田太郎', 'taro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
-  ('鈴木二郎', 'jiro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244');
+  ('たろう', 'taro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244'),
+  ('じろう', 'jiro@example.com', '937e8d5fbb48bd4949536cd65b8d35c426b80d2f830c5c308e2cdec422ae2244');
+
+-- 投稿を初期設定
+INSERT INTO posts (user_id, category_id, content)
+VALUES 
+  (1, 1, '学校が終わったよ'),
+  (1, 2, '今から友達と遊ぶよ');
