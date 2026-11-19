@@ -3,11 +3,11 @@
 <form method="POST">
 	<input type="hidden" name="csrf_token" value="{{csrf_token()}}">
 
-<label for="contents">
+<label for="content">
 	１４０もじいない で とうこうをかいてみよう</label>
 
 	{# テキストエリアを指定 140文字設定 nameはER図の通り #}
-<textarea maxlength="140" name="contents" id="contents" required placeholder="とうこうをしてみよう"></textarea>
+<textarea maxlength="140" name="content" id="content" required placeholder="とうこうをしてみよう"></textarea>
 
 
 <button type="submit">
