@@ -1,11 +1,24 @@
 {% extends "base.html" %}
-	{#投稿用画面の土台#}
+	{# 投稿用画面の土台 #}
 {% block title %}とうこうしよう{% endblock %}
-	{#posts.cssの読み込み#}
+	{# posts.cssの読み込み #}
 {% block page_css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/home.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/posts.css')}}">
 {% endblock %}
 
-
+	{# カテゴリボタン等home.htmlと合わせています #}
 {% block content %}
+<h1>とうこうしてみよう</h1>
+<div class="category-list">
+	{# カテゴリ選択仮置き #}
+	<a class="category-button" href="/posts/youtube">
+		youtube</a>
+	<a class="category-button" href="/posts/game">
+		ゲーム、アニメ</a>
+	<a class="category-button" href="/posts/sports">
+		運動、スポーツ</a>	
+	<a class="category-button" href="/posts/etc">
+		そのた</a>
+</div>
 {% endblock %}
