@@ -18,6 +18,8 @@
 
 .category-section {
     margin-top: 32px;
+    width: 65%;
+    margin: 32px auto 0;
 }
 
 .category-section h2 {
@@ -26,9 +28,9 @@
 
 .category-list {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 14px 120px;
 }
 
 .category-button {
