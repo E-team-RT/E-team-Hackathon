@@ -1,1 +1,67 @@
-/* 投稿・投稿閲覧用CSS */
+/* 選択されているカテゴリを暗くする */
+.category-button.active{
+	filter: brightness(0.7);
+}	
+
+.category-list {
+    gap: clamp(4px, 2vw, 16px);
+    flex-wrap: wrap;
+}
+
+.category-button {
+    flex: 1;
+    width: auto;
+    height: auto;
+    aspect-ratio: 1;
+}
+
+form{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 16px;
+}
+
+/* テキストエリアの設定140文字が入るようなサイズ */
+textarea{
+	width: 100%;
+	max-width: 600px;
+	min-height: 180px;
+	padding: clamp(12px, 3vw, 20px) clamp(14px, 3vw, 20px);
+	border: 2px solid var(--color-border);
+	border-radius: 20px;
+	background: var(--color-cream);
+	font: inherit;
+	font-size: 18px;
+}
+/* ラベルの設定 */
+label{
+	display: block;
+	font-size: 18px;
+	margin-bottom: 12px;
+	font-weight: 700;
+}
+/* ボタンの設定、デザイン */
+button {
+    padding: clamp(12px, 3vw, 16px) clamp(20px, 5vw, 32px);
+    border: 2px solid var(--color-border);
+    border-radius: 20px;
+    background: var(--color-main);
+    color: #fff;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--color-main-dark);
+}
+
+@media (max-width: 600px) {
+    .category-button {
+        flex: 0 0 50%;
+    }
+}
+
+

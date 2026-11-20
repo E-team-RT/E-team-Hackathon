@@ -40,9 +40,10 @@
 	</div>
 	<div class="field">
 		<label for="password_confirm">パスワード 8~64もじ（かくにん）</label>
-		<input type="password" name="password_confirm" id="password_confirm" placeholder="かくにん" required maxlength="64" minlength="8" >
+		<input type="password" name="password_confirmation" id="password_confirm" placeholder="かくにん" required maxlength="64" minlength="8" >
 	</div>
 		<button type="submit">よりみちをはじめる</button>
+		 <a class="switch-auth-mode" href="{{ url_for('login_view') }}"></a>
 		</form>
 </div>
 {% endblock %}

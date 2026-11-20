@@ -1,1 +1,29 @@
-<!--  投稿用HTML -->
+{% extends "base.html" %}
+	{# 投稿用画面の土台 #}
+{% block title %}とうこうしよう{% endblock %}
+	{# posts.cssの読み込み #}
+{% block page_css %}
+<link rel="stylesheet" href="{{url_for('static',filename='css/home.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/posts.css')}}">
+{% endblock %}
+
+	{# カテゴリボタン等home.htmlと合わせています #}
+{% block content %}
+<h1>とうこうしてみよう</h1>
+
+
+<div class="category-list">
+	{# カテゴリ選択仮置き #}
+	<a class="category-button {% if category == 'youtube' %}active{% endif %}" href="/posts/youtube">youtube</a>
+	<a class="category-button {% if category == 'game' %}active{% endif %}" href="/posts/game">アニメ、ゲーム</a>
+	<a class="category-button {% if category == 'sports' %}active{% endif %}" href="/posts/sports">運動、スポーツ</a>
+	<a class="category-button {% if category == 'etc' %}active{% endif %}" href="/posts/etc">そのた</a>
+</div>	
+	{# Flaskの変数名が不明 #}
+{% if category %}
+	{# カテゴリが選択されているとフォームを出す #}
+	<p>{{ category }}</p>
+	{% include 'post/post.html' %}
+{% endif %}
+{% endblock %}
+

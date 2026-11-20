@@ -27,14 +27,14 @@ def index():
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
-    return redirect(url_for('posts_view'))
+    return redirect(url_for('home_view'))
 
 
 # サインアップページの表示
 @app.route('/signup', methods=['GET'])
 def signup_view():
     if session.get('user_id') is not None:
-        return redirect(url_for('posts_view'))
+        return redirect(url_for('home_view'))
     return render_template('auth/signup.html')
 
 
@@ -73,14 +73,14 @@ def signup_process():
 
     session['user_id'] = user_id
 
-    return redirect(url_for('posts_view'))
+    return redirect(url_for('home_view'))
 
 
 # ログインページの表示
 @app.route('/login', methods=['GET'])
 def login_view():
     if session.get('user_id') is not None:
-        return redirect(url_for('posts_view'))
+        return redirect(url_for('home_view'))
     return render_template('auth/login.html')
 
 
@@ -102,7 +102,10 @@ def login_process():
                 flash('メールアドレスorパスワードが違います','error')
             else:
                 session['user_id'] = user["id"]
-                return redirect(url_for('posts_view'))
+                 # ログインした時刻を保存
+                session['login_time'] = datetime.now().isoformat()
+
+                return redirect(url_for('home_view'))
     return redirect(url_for('login_view'))
 
 
@@ -112,9 +115,11 @@ def logout():
     session.clear()
     return redirect(url_for('login_view'))
 
-# カテゴリ選択で投稿を表示
+
+# カテゴリ選択で投稿作成画面を表示
+@app.route('/posts', methods=['GET'])
 @app.route('/posts/<category>', methods=['GET'])
-def posts_view():
+def posts_view(category=None):
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
@@ -125,7 +130,7 @@ def posts_view():
             # 登校時間がいるか？要検討
             post['user_name'] = User.get_name_by_id(post['user_id'])
 
-        return render_template('post/posts.html', posts=posts, user_id=user_id)
+        return render_template('post/posts.html',category=category, posts=posts, user_id=user_id)
 
 # カテゴリ選択 投稿処理
 @app.route('/posts', methods=['POST'])
@@ -244,9 +249,9 @@ def home_view():
 # ユーザー名で投稿検索
 @app.route('/username_search', methods=['POST'])
 def posts_search_by_name():
-    # user_id = session.get('user_id')
-    # if user_id is None:
-        # return redirect(url_for('login_view'))
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
     name = request.form.get('username_search', '').strip()
     if name == '':
         flash('ともだちのなまえが空です', 'error')
@@ -263,18 +268,7 @@ def posts_search_by_name():
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts, name=name)
 
-@app.route('/post/<user_id>', methods=['POST'])
-def search_user():
-    user_id = request.form.get('user_search', '').strip()
-    if not user_id:
-        flash('ユーザーIDを入力してください','error')
-        return redirect(url_for('posts_view'))
-    user = User.find_by_id(user_id)
-    if user is None:
-        flash('ユーザーが見つかりません','error') 
-        return redirect(url_for('posts_view'))
-    posts = Post.find_all()
-    return render_template('post/posts.html', posts=posts, user_id=user_id)
+
 
 @app.errorhandler(400)
 def bad_request(error):
@@ -288,6 +282,76 @@ def page_not_found(error):
 @app.errorhandler(500)
 def internal_server_error(error):
     return render_template('error/500.html'),500
+
+@app.context_processor
+def inject_login_duration():
+
+    login_duration = ""
+
+    if session.get('login_time'):
+
+        login_time = datetime.fromisoformat(
+            session['login_time']
+        )
+
+        elapsed = datetime.now() - login_time
+
+        hours = elapsed.seconds // 3600
+
+        minutes = (elapsed.seconds % 3600) // 60
+
+        login_duration = f"{hours}時間{minutes}分"
+
+    return dict(login_duration=login_duration)
+
+
+
+
+# @app.route('/lock', methods=['GET'])
+
+# # from datetime import datetime, 
+# # import time
+# lock_judgment = 0 #0なら未ロック、1ならロック中を表す
+# lock_start_time = datetime.time(21, 0, 0) #ロック開始時刻をセット
+# lock_end_time = datetime.time(6, 0, 0) #ロック終了時刻をセット
+
+# #未ロックのときの処理
+# def lock_judge(now_time, lock_start_time, lock_end_time):
+#     if lock_start_time <= now_time or now_time < lock_end_time:
+#         logout()
+#         lock_judgment = 1
+#         return redirect(url_for(''))
+#     elif now_time - login_time >= datetime.timedelta(hours=1):
+#         logout()
+#         lock_judgment = 1
+#         return redirect(url_for(''))
+
+
+
+
+# #ロック中のときの処理
+# def lock_release_judge(now_time, lock_end_time):
+# if lock_end_time <= now_time:
+#     index()
+#     lock_judgment = 0
+
+# #10秒に1回処理する
+# before_time = datetime.datetime.now() #現在時刻をセット
+# while True:
+# 	# login_time = #ログイン時刻をセット
+# 	now_time = datetime.datetime.now() #現在時刻をセット
+# 	is_seconds = now_time - before_time #何秒経過したか計算
+
+# 	if is_seconds >= datetime.timedelta(seconds=10): 
+# 		if lock_judgment == 0: #未ロックの処理
+#             lock_judge()
+#             before_time = now_time
+
+# 		elif lock_judgment == 1: #ロック中の処理
+#             lock_release_judge(now_time, lock_end_time)
+# 			before_time = now_time
+
+# 	time.sleep(0.01)  # CPU使用率が100%になるのを防ぐための短い待機
 
 
 if __name__ == '__main__':
