@@ -102,6 +102,9 @@ def login_process():
                 flash('メールアドレスorパスワードが違います','error')
             else:
                 session['user_id'] = user["id"]
+                 # ログインした時刻を保存
+                session['login_time'] = datetime.now().isoformat()
+
                 return redirect(url_for('posts_view'))
     return redirect(url_for('login_view'))
 
@@ -289,6 +292,26 @@ def page_not_found(error):
 def internal_server_error(error):
     return render_template('error/500.html'),500
 
+@app.context_processor
+def inject_login_duration():
+
+    login_duration = ""
+
+    if session.get('login_time'):
+
+        login_time = datetime.fromisoformat(
+            session['login_time']
+        )
+
+        elapsed = datetime.now() - login_time
+
+        hours = elapsed.seconds // 3600
+
+        minutes = (elapsed.seconds % 3600) // 60
+
+        login_duration = f"{hours}時間{minutes}分"
+
+    return dict(login_duration=login_duration)
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", debug=True)

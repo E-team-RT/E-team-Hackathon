@@ -30,11 +30,15 @@ a {
 }
 
 .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 14px 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 20px;
+  position: relative;
 }
+
 
 .site-logo {
     color: #fff;
@@ -42,6 +46,27 @@ a {
     font-weight: 800;
     text-decoration: none;
     letter-spacing: 0.04em;
+}
+
+/* 右側のログイン時間・ログアウト */
+.header-user {
+    position: absolute;
+    right: 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 16px; /* 時間とログアウトの間隔 */
+
+    font-size: 14px;
+}
+
+.header-user a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.header-user a:hover {
+    text-decoration: underline;
 }
 
 /* =========================
