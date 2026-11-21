@@ -20,14 +20,16 @@ USE snsapp;
 CREATE TABLE
     users (
         id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
-        name VARCHAR(255) NOT NULL,
-        email VARCHAR(255) NOT NULL,
-        password VARCHAR(255) NOT NULL,
+        name VARCHAR(20) NOT NULL,
+        email VARCHAR(254) NOT NULL,
+        password VARCHAR(64) NOT NULL,
         created_at DATETIME (6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
         updated_at DATETIME (6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
         PRIMARY KEY (id),
         UNIQUE KEY uq_users_name (name),
-        UNIQUE KEY uq_users_email (email)
+        UNIQUE KEY uq_users_email (email),
+        CONSTRAINT chk_users_name_length CHECK (CHAR_LENGTH(name) >= 2),
+        CONSTRAINT chk_users_password_length CHECK (CHAR_LENGTH(password) >= 8)
     ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
 
 -- カテゴリテーブル作成
@@ -74,7 +76,7 @@ CREATE TABLE
 
 -- カテゴリ名を設定
 INSERT INTO categories (category)
-VALUES ('カテゴリ1'), ('カテゴリ2'), ('カテゴリ3'), ('カテゴリ4');
+VALUES ('YouTube'), ('アニメ&ゲーム'), ('うんどう'), ('そのた');
 
 -- ユーザー名を初期設定
 INSERT INTO users (name, email, password)
@@ -85,5 +87,5 @@ VALUES
 -- 投稿を初期設定
 INSERT INTO posts (user_id, category_id, content)
 VALUES 
-  (1, 1, '学校が終わったよ'),
-  (1, 2, '今から友達と遊ぶよ');
+  (1, 4, '学校やっとおわったー！'),
+  (1, 3, '鬼ごっこ楽しい！');
