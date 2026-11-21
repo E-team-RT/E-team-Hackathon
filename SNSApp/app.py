@@ -133,13 +133,13 @@ def posts_view(category=None):
         return render_template('post/posts.html',category=category, posts=posts, user_id=user_id)
 
 # カテゴリ選択 投稿処理
-@app.route('/posts', methods=['POST'])
-def create_post():
+@app.route('/posts/<category>', methods=['POST'])
+def create_post(category):
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
     content = request.form.get('content', '').strip()
-    category = request.form.get('category', '')
+    
     if content == '':
         flash('投稿内容が空です','error')
         return redirect(url_for('posts_view'))
