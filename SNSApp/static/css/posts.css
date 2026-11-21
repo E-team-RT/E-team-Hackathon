@@ -3,16 +3,12 @@
 	filter: brightness(0.7);
 }	
 
-.category-list {
-    gap: clamp(4px, 2vw, 16px);
-    flex-wrap: wrap;
-}
-
+/*カテゴリボタン内の文字を中央ぞろえ*/
 .category-button {
-    flex: 1;
-    width: auto;
-    height: auto;
-    aspect-ratio: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
 }
 
 form{
@@ -57,11 +53,4 @@ button {
 button:hover {
     background: var(--color-main-dark);
 }
-
-@media (max-width: 600px) {
-    .category-button {
-        flex: 0 0 50%;
-    }
-}
-
 
