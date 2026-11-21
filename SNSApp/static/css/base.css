@@ -7,7 +7,7 @@
 
 body {
     margin:0;
-    background-image:url("../images/Dagashiya.jpeg");
+    background-image:url("../images/Dagashiya2.jpeg");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -35,10 +35,13 @@ a {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 20px;
+  padding: 8px 20px;
   position: relative;
 }
 
+.site-tagline {
+    text-align: center;
+}
 
 .site-logo {
     color: #fff;
@@ -96,6 +99,26 @@ main {
 .footer-message {
     color: var(--color-main-dark);
     font-weight: 600;
+}
+/* フッターのナビゲーション */
+.footer-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+/* ボタン風のリンク */
+.footer-button {
+    display: inline-block;
+    padding: 8px 20px;
+    border: 2px solid var(--color-border);
+    border-radius: 24px;
+    background: #D9E8D0;
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
 }
 
 /* =========================
