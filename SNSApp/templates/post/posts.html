@@ -14,11 +14,13 @@
 
 <div class="category-section">
 	{# カテゴリ選択仮置き #}
+	<div class="category-list">
 	<a class="category-button {% if category == '1' %}active{% endif %}" href="/posts/1">YouTube</a>
 	<a class="category-button {% if category == '2' %}active{% endif %}" href="/posts/2">アニメ&ゲーム</a>
 	<a class="category-button {% if category == '3' %}active{% endif %}" href="/posts/3">うんどう</a>
 	<a class="category-button {% if category == '4' %}active{% endif %}" href="/posts/4">そのた</a>
 </div>	
+</div>
 	{# Flaskの変数名が不明 #}
 {% if category %}
 	{# カテゴリが選択されているとフォームを出す #}

@@ -3,6 +3,14 @@
 	filter: brightness(0.7);
 }	
 
+/*カテゴリボタン内の文字を中央ぞろえ*/
+.category-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+}
+
 form{
 	display: flex;
 	flex-direction: column;
