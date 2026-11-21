@@ -14,16 +14,16 @@
 
 <div class="category-list">
 	{# カテゴリ選択仮置き #}
-	<a class="category-button {% if category == 'youtube' %}active{% endif %}" href="/posts/youtube">youtube</a>
-	<a class="category-button {% if category == 'game' %}active{% endif %}" href="/posts/game">アニメ、ゲーム</a>
-	<a class="category-button {% if category == 'sports' %}active{% endif %}" href="/posts/sports">運動、スポーツ</a>
-	<a class="category-button {% if category == 'etc' %}active{% endif %}" href="/posts/etc">そのた</a>
+	<a class="category-button {% if category == '1' %}active{% endif %}" href="/posts/1">YouTube</a>
+	<a class="category-button {% if category == '2' %}active{% endif %}" href="/posts/2">アニメ&ゲーム</a>
+	<a class="category-button {% if category == '3' %}active{% endif %}" href="/posts/3">うんどう</a>
+	<a class="category-button {% if category == '4' %}active{% endif %}" href="/posts/4">そのた</a>
 </div>	
 	{# Flaskの変数名が不明 #}
 {% if category %}
 	{# カテゴリが選択されているとフォームを出す #}
 	<p>{{ category }}</p>
 	{% include 'post/post.html' %}
-{% endif %}
+	{% endif %}
 {% endblock %}
 
