@@ -89,12 +89,12 @@ class Post:
             db_pool.release(conn)
 
     @classmethod
-    def create(cls, user_id, content):
+    def create(cls, user_id, content, category_id):
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "INSERT INTO posts (user_id, content) VALUES (%s, %s);"
-                cur.execute(sql, (user_id, content))
+                sql = "INSERT INTO posts (user_id, content, category_id) VALUES (%s, %s, %s);"
+                cur.execute(sql, (user_id, content, category_id))
                 conn.commit()
         except pymysql.Error as e:
             print(f'エラーが発生しています：{e}')
