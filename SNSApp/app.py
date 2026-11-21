@@ -271,13 +271,10 @@ def posts_search_by_name():
 # カテゴリボタンで投稿閲覧
 @app.route('/category_search/<int:category_id>', methods=['GET'])
 def posts_search_by_category(category_id):
-    # user_id = session.get('user_id')
-    # if user_id is None:
-    #     return redirect(url_for('login_view'))
-    posts = Post.get_posts_by_category(category_id)
-    # if not posts:
-    #     flash('ともだちのよりみちがありません', 'error')
-    #     return redirect(url_for('home_view'))        
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    posts = Post.get_posts_by_category(category_id)     
     for post in posts:
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts)
