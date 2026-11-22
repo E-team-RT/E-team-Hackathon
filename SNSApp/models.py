@@ -152,6 +152,27 @@ class Post:
         finally:
             db_pool.release(conn)
 
+#カテゴリIDでの投稿閲覧機能での投稿取得
+    @classmethod
+    def get_posts_by_category(cls, category_id): 
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = """SELECT u.id as user_id, u.name, p.id as post_id, p.content,
+                p.category_id, c.category, p.created_at 
+                FROM posts as p 
+                JOIN users as u on p.user_id = u.id
+                JOIN categories as c on p.category_id = c.id
+                WHERE c.id=%s AND p.deleted_at IS NULL;"""
+                cur.execute(sql, (category_id,))
+                posts = cur.fetchall()
+            return posts
+        except pymysql.Error as e:
+            print(f'エラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
 # Commentクラス
 class Comment:
     @classmethod
