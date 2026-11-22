@@ -24,7 +24,7 @@
 	{# Flaskの変数名が不明 #}
 {% if category %}
 	{# カテゴリが選択されているとフォームを出す #}
-	<p>{{ category }}</p>
+	<p>{{ category_name }}</p>
 	{% include 'post/post.html' %}
 	{% endif %}
 {% endblock %}
