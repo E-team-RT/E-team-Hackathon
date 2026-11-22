@@ -1,1 +1,62 @@
 /* エラーとロック画面ページ用CSS */
+/* 画面全体 */
+.night-screen {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #8091af;
+    background-image: url("../images/lock.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+/* 真ん中の囲い */
+.night-card {
+    width: 100%;
+    max-width: 420px;
+    padding: 20px 20px;
+    box-sizing: border-box;
+    text-align: center;
+    background: rgba(110, 145, 195, 0.75);
+    border: 2px solid rgba(255, 255, 255, 0.85);
+    border-radius: 22px;
+    color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+}
+/* 月 */
+.moon-icon {
+    font-size: 56px;
+    margin-bottom: 24px;
+}
+/* またあした */
+.night-card h1 {
+    font-size: 40px;
+    margin: 10px 0 18px;
+}
+/* きょうのよりみちはおしまい */
+.sub-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+.message {
+    font-size: 18px;
+    line-height: 1.8;
+}
+/* 時間表示 */
+.time {
+    display: inline-block;
+    background: #d9edfa;
+    color: #536e9d;
+    padding: 8px 18px;
+    border-radius: 24px;
+    font-weight: bold;
+    font-size: 16px;
+    margin: 12px 0;
+}
+/* 下部メッセージ */
+.footer-message {
+    font-size: 14px;
+    margin-top: 12px;
+}
