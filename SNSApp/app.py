@@ -55,9 +55,9 @@ def check_is_locked():
     # if LOCK_START_TIME <= current_time < LOCK_END_TIME: #テスト用
         return True
 
-    #ログイン経過時間チェック
+    #ログイン経過時間チェック, tz=jst
     if session.get('login_time'):
-        login_time = datetime.fromisoformat(session['login_time'])
+        login_time = datetime.fromtimestamp(session['login_time'], tz=jst)
         elapsed_time = time_datetime - login_time
         if elapsed_time.total_seconds() >= LOCK_LIMIT_SECONDS:
             return True
@@ -116,6 +116,8 @@ def signup_process():
 
     session['user_id'] = user_id
 
+    session['login_time'] = int(time.time())
+
     return redirect(url_for('home_view'))
 
 
@@ -146,7 +148,7 @@ def login_process():
             else:
                 session['user_id'] = user["id"]
                  # ログインした時刻を保存
-                session['login_time'] = datetime.now().isoformat()
+                session['login_time'] = int(time.time())
 
                 return redirect(url_for('home_view'))
     return redirect(url_for('login_view'))
@@ -353,11 +355,9 @@ def inject_login_duration():
 
     if session.get('login_time'):
 
-        login_time = datetime.fromisoformat(
-            session['login_time']
-        )
+        login_time = datetime.fromtimestamp(session['login_time'], tz=jst)
 
-        elapsed = datetime.now() - login_time
+        elapsed = datetime.now(jst) - login_time
 
         hours = elapsed.seconds // 3600
 
