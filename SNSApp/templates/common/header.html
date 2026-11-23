@@ -6,7 +6,9 @@
         </div>
         {% if session.get('user_id') %}
         <div class="header-user">
-            <span>⏱ {{ login_duration }}</span>
+            <span id="login-duration">
+            ⏱ 0じかん 0ふん よりみちしたよ
+            </span>            
             <a href="{{ url_for('logout') }}">
                 ログアウト
             </a>
@@ -14,3 +16,39 @@
         {% endif %}
     </div>
 </header>
+
+{% if session.get('login_time') %}
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const loginTimestamp =
+        Number("{{ session.get('login_time') }}");
+
+    if (isNaN(loginTimestamp)) {
+        return;
+    }
+
+    function updateLoginDuration() {
+
+        const now = Math.floor(Date.now() / 1000);
+        const diff = Math.max(0, now - loginTimestamp);
+
+        const hours = Math.floor(diff / 3600);
+        const minutes = Math.floor((diff % 3600) / 60);
+
+        const element =
+            document.getElementById('login-duration');
+
+        if (element) {
+            element.textContent =
+                "⏱ " + hours + "じかん " +
+                minutes + "ふん よりみちしたよ";
+        }
+    }
+
+    updateLoginDuration();
+    setInterval(updateLoginDuration, 10000);
+
+});
+</script>
+{% endif %}

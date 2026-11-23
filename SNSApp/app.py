@@ -115,6 +115,7 @@ def signup_process():
     user_id = User.create(name, email, hashed_password)
 
     session['user_id'] = user_id
+    session['login_time'] = int(time.time())
 
     session['login_time'] = int(time.time())
 
@@ -170,12 +171,14 @@ def posts_view(category=None):
         return redirect(url_for('login_view'))
     else:
         posts = Post.get_all()
-        for post in posts:
+        for post in posts:  
             post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
             # 登校時間がいるか？要検討
             post['user_name'] = User.get_name_by_id(post['user_id'])
 
-        return render_template('post/posts.html',category=category, posts=posts, user_id=user_id)
+        category_name = Post.get_category_by_id(category) if category else None
+
+        return render_template('post/posts.html',category=category, category_name=category_name, posts=posts, user_id=user_id)
 
 # カテゴリ選択 投稿処理
 @app.route('/posts/<category>', methods=['POST'])
@@ -366,7 +369,6 @@ def inject_login_duration():
         login_duration = f"{hours}時間{minutes}分"
 
     return dict(login_duration=login_duration)
-
 
 
 if __name__ == '__main__':

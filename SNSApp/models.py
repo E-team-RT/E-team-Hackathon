@@ -89,6 +89,21 @@ class Post:
             db_pool.release(conn)
 
     @classmethod
+    def get_category_by_id(cls, category_id):
+        conn = db_pool.get_conn()
+        try:
+            with conn.cursor() as cur:
+                sql = "SELECT category FROM categories WHERE id=%s;"
+                cur.execute(sql, (category_id,))
+                category = cur.fetchone()
+            return category['category'] if category else None
+        except pymysql.Error as e:
+            print(f'エラーが発生しています：{e}')
+            abort(500)
+        finally:
+            db_pool.release(conn)
+
+    @classmethod
     def create(cls, user_id, content, category_id):
         conn = db_pool.get_conn()
         try:
@@ -193,7 +208,7 @@ class Comment:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM comments WHERE post_id=%s ORDER BY created_at DESC;"
+                sql = "SELECT * FROM comments WHERE post_id=%s AND deleted_at IS NULL ORDER BY created_at DESC;"
                 cur.execute(sql, (post_id,))
                 comments = cur.fetchall()
             return comments
