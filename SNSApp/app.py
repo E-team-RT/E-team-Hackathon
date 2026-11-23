@@ -1,25 +1,67 @@
 from flask import Flask, request, redirect, render_template, session, flash, abort, url_for
 from flask_wtf.csrf import CSRFProtect
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 import hashlib
 import uuid
 import re
 import os
-# import datetime
 import time
 
 from models import User , Post, Comment
 
 
+
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 SESSION_DAYS = 1 #ログイン状態の保存日数
+LOCK_START_TIME = "21:00:00"  #ロック開始時刻
+LOCK_END_TIME = "06:00:00" #ロック解除時刻
+LOCK_LIMIT_SECONDS = 3600 #ログインからロックまでの時間（秒）
+
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY', uuid.uuid4().hex)
 app.permanent_session_lifetime = timedelta(days=SESSION_DAYS) #ここでログイン状態の期限設定
 
 csrf = CSRFProtect(app)
+
+jst = ZoneInfo("Asia/Tokyo")
+
+
+#ページ移動や操作時のガード処理（21時以降は直接アクセスも防ぐ）
+@app.before_request
+def check_lock_time():
+  #下記にアクセスしてきたら、なにもせずに次の処理へ
+  allowed_endpoints = [
+      "lock_view", #ロック時間外には直接アクセスできないように設定済
+      "static",
+      "time_api" #URLからは直接アクセスできないように設定済
+  ]
+  if request.endpoint in allowed_endpoints:
+    return
+  
+  if check_is_locked() == True:
+    return redirect(url_for("lock_view"))
+
+
+#ロック時間かどうかを判定 True=ロック時間
+def check_is_locked():
+    time_datetime = datetime.now(jst)
+    current_time = time_datetime.strftime("%H:%M:%S")
+
+    #21:00:00〜翌05:59:59の間かチェック
+    if LOCK_START_TIME <= current_time or current_time < LOCK_END_TIME:
+        return True
+
+    #ログイン経過時間チェック
+    if session.get('login_time'):
+        login_time = datetime.fromisoformat(session['login_time'])
+        elapsed_time = time_datetime - login_time
+        if elapsed_time.total_seconds() >= LOCK_LIMIT_SECONDS:
+            return True
+    return False
+  
 
 # ルートページのリダイレクト処理
 @app.route('/', methods=['GET'])
@@ -228,18 +270,28 @@ def create_comment(post_id):
     flash('コメントの投稿が完了しました','success')
     return redirect(url_for('post_detail_view', post_id=post_id)) """
 
-# 10秒に1回の時刻取得処理
+#時刻取得処理
 @app.route('/api', methods=['GET'])
 def time_api():
-    time_datetime = datetime.now()
-    current_time = time_datetime.strftime("%H:%M:%S")
-    return {"current_time": current_time}
+    #JavaScriptからの通信（合言葉）がない直接アクセスは弾く
+    if request.headers.get("X-Requested-With") != "XMLHttpRequest":
+        if session.get('user_id'):
+            return redirect(url_for('home_view'))
+        return redirect(url_for('login_view'))
+    is_locked = check_is_locked()
+    return {"is_locked": is_locked} #ロックの判断をブラウザに渡す
 
-# ロック画面
-TARGET_URL = "/rock"
-TARGET_TIME = "21:00:00"  # 時:分:秒（24時間表記）
-def rock_view():
-    return redirect(url_for('rock_view'))
+#ロック画面
+@app.route('/lock', methods=['GET'])
+def lock_view():
+    #ロック時間でないときはロック画面にアクセスできない
+    if not check_is_locked():
+        if session.get('user_id'):
+            return redirect(url_for('home_view'))
+        return redirect(url_for('login_view'))
+    session.clear()
+    return render_template('error_lock/lock.html')
+
 
 # 動作確認用みるページの表示
 @app.route('/home', methods=['GET'])
@@ -272,16 +324,16 @@ def posts_search_by_name():
 
 @app.errorhandler(400)
 def bad_request(error):
-    return render_template('error/400.html'), 400
+    return render_template('error_lock/400.html'), 400
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('error/404.html'),404
+    return render_template('error_lock/404.html'),404
 
 
 @app.errorhandler(500)
 def internal_server_error(error):
-    return render_template('error/500.html'),500
+    return render_template('error_lock/500.html'),500
 
 @app.context_processor
 def inject_login_duration():
@@ -304,54 +356,6 @@ def inject_login_duration():
 
     return dict(login_duration=login_duration)
 
-
-
-
-# @app.route('/lock', methods=['GET'])
-
-# # from datetime import datetime, 
-# # import time
-# lock_judgment = 0 #0なら未ロック、1ならロック中を表す
-# lock_start_time = datetime.time(21, 0, 0) #ロック開始時刻をセット
-# lock_end_time = datetime.time(6, 0, 0) #ロック終了時刻をセット
-
-# #未ロックのときの処理
-# def lock_judge(now_time, lock_start_time, lock_end_time):
-#     if lock_start_time <= now_time or now_time < lock_end_time:
-#         logout()
-#         lock_judgment = 1
-#         return redirect(url_for(''))
-#     elif now_time - login_time >= datetime.timedelta(hours=1):
-#         logout()
-#         lock_judgment = 1
-#         return redirect(url_for(''))
-
-
-
-
-# #ロック中のときの処理
-# def lock_release_judge(now_time, lock_end_time):
-# if lock_end_time <= now_time:
-#     index()
-#     lock_judgment = 0
-
-# #10秒に1回処理する
-# before_time = datetime.datetime.now() #現在時刻をセット
-# while True:
-# 	# login_time = #ログイン時刻をセット
-# 	now_time = datetime.datetime.now() #現在時刻をセット
-# 	is_seconds = now_time - before_time #何秒経過したか計算
-
-# 	if is_seconds >= datetime.timedelta(seconds=10): 
-# 		if lock_judgment == 0: #未ロックの処理
-#             lock_judge()
-#             before_time = now_time
-
-# 		elif lock_judgment == 1: #ロック中の処理
-#             lock_release_judge(now_time, lock_end_time)
-# 			before_time = now_time
-
-# 	time.sleep(0.01)  # CPU使用率が100%になるのを防ぐための短い待機
 
 
 if __name__ == '__main__':
