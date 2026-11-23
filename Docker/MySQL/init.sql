@@ -67,6 +67,7 @@ CREATE TABLE
         content VARCHAR(35) NOT NULL,
         created_at DATETIME (6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
         updated_at DATETIME (6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6) ON UPDATE CURRENT_TIMESTAMP(6),
+        deleted_at DATETIME(6) DEFAULT NULL,
         PRIMARY KEY (id),
         KEY idx_comments_user_id (user_id),
         KEY idx_comments_post_id (post_id),
@@ -89,3 +90,21 @@ INSERT INTO posts (user_id, category_id, content)
 VALUES 
   (1, 4, '学校やっとおわったー！'),
   (1, 3, '鬼ごっこ楽しい！');
+
+SET GLOBAL event_scheduler = ON;
+
+CREATE EVENT delete_posts_daily
+ON SCHEDULE EVERY 1 DAY
+STARTS TIMESTAMP(CURDATE(), '12:00:00')
+DO
+UPDATE posts
+SET deleted_at = NOW()
+WHERE deleted_at IS NULL;
+
+CREATE EVENT delete_comments_daily
+ON SCHEDULE EVERY 1 DAY
+STARTS TIMESTAMP(CURDATE(), '12:00:00')
+DO
+UPDATE comments
+SET deleted_at = NOW()
+WHERE deleted_at IS NULL;
