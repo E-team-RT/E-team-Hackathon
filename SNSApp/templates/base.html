@@ -10,12 +10,15 @@
     {% block page_css %}{% endblock %}
 </head>
 <body>
-    {% include 'common/header.html' %}
+    {% block header %}
+        {% include 'common/header.html' %}
+    {% endblock %}
 
     <main>
         {% block content %}{% endblock %}
     </main>
-
-    {% include 'common/footer.html' %}
+    {% block footer %}
+        {% include 'common/footer.html' %}
+    {% endblock %}
 </body>
 </html>
