@@ -1,20 +1,64 @@
-<!-- ロック画面HTML -->
- <link rel="stylesheet" href="{{ url_for('static', filename='css/error_lock.css') }}">
- <div class="night-screen">
-    <div class="night-card">
+<!doctype html>
+<html>
+  <head>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/error_lock.css') }}"
+    />
+  </head>
+  <body>
+    <div class="night-screen">
+      <div class="night-card">
         <div class="moon-icon">🌙</div>
         <p class="sub-title">きょうの よりみちは おしまい</p>
         <h1>また あした！</h1>
         <p class="message">
-            「よりみち」ができるのは<br>
-            あさ6じから よる9じまでです。
+          「よりみち」ができるのは<br />
+          あさ6じから よる9じまでです。
         </p>
-        <div class="time">
-            🕒 6:00 〜 21:00
-        </div>
+        <div class="time">🕒 6:00 〜 21:00</div>
         <p class="footer-message">
-            よくねて、あしたもたのしいはっけんをしよう✨
+          よくねて、あしたもたのしいはっけんをしよう✨
         </p>
+      </div>
     </div>
 
-</div>
+    <!-- ロック画面表示の処理 -->
+    <script>
+      const LOCK_URL = "/lock";
+      const LOGIN_URL = "/login";
+
+      async function checkLock() {
+        try {
+          const response = await fetch("/api", {
+            headers: {
+              "X-Requested-With": "XMLHttpRequest", //JSからの通信であることを示す合言葉
+            },
+          });
+
+          const data = await response.json();
+
+          const currentPath = window.location.pathname;
+
+          if (data.is_locked) {
+            //ロック時間中なのに、まだ /lock 画面にいない場合 → ロック画面へ移動
+            if (currentPath !== LOCK_URL) {
+              window.location.href = LOCK_URL;
+            }
+          } else {
+            //ロック時間外なのに、まだ /lock 画面にいる場合 → ログイン画面へ移動
+            if (currentPath === LOCK_URL) {
+              window.location.href = LOGIN_URL;
+            }
+          }
+        } catch (error) {
+          console.error("ロック確認エラー:", error);
+        }
+      }
+
+      //10秒ごとに実行
+      checkLock();
+      setInterval(checkLock, 10000);
+    </script>
+  </body>
+</html>
