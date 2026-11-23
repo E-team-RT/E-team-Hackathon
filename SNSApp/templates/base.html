@@ -14,13 +14,12 @@
     />
     {% block page_css %}{% endblock %}
   </head>
+
   <body>
-    {% include 'common/header.html' %}
+   {% include 'common/header.html' %}
 
     <main>{% block content %}{% endblock %}</main>
-
-    {% include 'common/footer.html' %}
-
+    {% block footer %} {% include 'common/footer.html' %} {% endblock %}
 
     <!-- ロック画面表示の処理 -->
     <script>

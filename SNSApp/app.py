@@ -15,8 +15,8 @@ from models import User , Post, Comment
 # 定数定義
 EMAIL_PATTERN = r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
 SESSION_DAYS = 1 #ログイン状態の保存日数
-LOCK_START_TIME = "21:00:00"  #ロック開始時刻
-LOCK_END_TIME = "06:00:00" #ロック解除時刻
+LOCK_START_TIME = "21:26:00"  #ロック開始時刻
+LOCK_END_TIME = "21:26:30" #ロック解除時刻
 LOCK_LIMIT_SECONDS = 3600 #ログインからロックまでの時間（秒）
 
 
@@ -36,6 +36,8 @@ def check_lock_time():
   allowed_endpoints = [
       "lock_view", #ロック時間外には直接アクセスできないように設定済
       "static",
+      "login_view",
+      "signup_view",
       "time_api" #URLからは直接アクセスできないように設定済
   ]
   if request.endpoint in allowed_endpoints:
@@ -51,8 +53,8 @@ def check_is_locked():
     current_time = time_datetime.strftime("%H:%M:%S")
 
     #21:00:00〜翌05:59:59の間かチェック
-    if LOCK_START_TIME <= current_time or current_time < LOCK_END_TIME:
-    # if LOCK_START_TIME <= current_time < LOCK_END_TIME: #テスト用
+    # if LOCK_START_TIME <= current_time or current_time < LOCK_END_TIME:
+    if LOCK_START_TIME <= current_time < LOCK_END_TIME: #テスト用
         return True
 
     #ログイン経過時間チェック, tz=jst
@@ -323,7 +325,7 @@ def posts_search_by_name():
         flash('ともだちのよりみちがありません', 'error')
         return redirect(url_for('home_view'))        
     for post in posts:
-        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
+        post['created_at'] = post['created_at'].astimezone(ZoneInfo('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts, name=name)
 
 # カテゴリボタンで投稿閲覧
@@ -334,7 +336,7 @@ def posts_search_by_category(category_id):
         return redirect(url_for('login_view'))
     posts = Post.get_posts_by_category(category_id)     
     for post in posts:
-        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
+        post['created_at'] = post['created_at'].astimezone(ZoneInfo('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts)
     
 
