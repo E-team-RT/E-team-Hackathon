@@ -1,15 +1,25 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <title>ロック画面</title>
-</head>
-<body>
-  <h1>ロック画面</h1>
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/error_lock.css') }}"
+  />
+  <div class="night-screen">
+    <div class="night-card">
+      <div class="moon-icon">🌙</div>
+      <p class="sub-title">きょうの よりみちは おしまい</p>
+      <h1>また あした！</h1>
+      <p class="message">
+        「よりみち」ができるのは<br />
+        あさ6じから よる9じまでです。
+      </p>
+      <div class="time">🕒 6:00 〜 21:00</div>
+      <p class="footer-message">よくねて、あしたもたのしいはっけんをしよう✨</p>
+    </div>
+  </div>
 
+  <body>
     <!-- ロック画面表示の処理 -->
     <script>
-    const LOCK_URL = "/lock";
+      const LOCK_URL = "/lock";
       const LOGIN_URL = "/login";
 
       async function checkLock() {

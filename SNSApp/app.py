@@ -52,6 +52,7 @@ def check_is_locked():
 
     #21:00:00〜翌05:59:59の間かチェック
     if LOCK_START_TIME <= current_time or current_time < LOCK_END_TIME:
+    # if LOCK_START_TIME <= current_time < LOCK_END_TIME: #テスト用
         return True
 
     #ログイン経過時間チェック
@@ -175,13 +176,13 @@ def posts_view(category=None):
         return render_template('post/posts.html',category=category, posts=posts, user_id=user_id)
 
 # カテゴリ選択 投稿処理
-@app.route('/posts', methods=['POST'])
-def create_post():
+@app.route('/posts/<category>', methods=['POST'])
+def create_post(category):
     user_id = session.get('user_id')
     if user_id is None:
         return redirect(url_for('login_view'))
     content = request.form.get('content', '').strip()
-    category = request.form.get('category', '')
+    
     if content == '':
         flash('投稿内容が空です','error')
         return redirect(url_for('posts_view'))
@@ -320,7 +321,17 @@ def posts_search_by_name():
         post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts, name=name)
 
-
+# カテゴリボタンで投稿閲覧
+@app.route('/category_search/<int:category_id>', methods=['GET'])
+def posts_search_by_category(category_id):
+    user_id = session.get('user_id')
+    if user_id is None:
+        return redirect(url_for('login_view'))
+    posts = Post.get_posts_by_category(category_id)     
+    for post in posts:
+        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
+    return render_template('home.html', posts=posts)
+    
 
 @app.errorhandler(400)
 def bad_request(error):

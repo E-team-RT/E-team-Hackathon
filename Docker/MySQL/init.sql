@@ -76,7 +76,7 @@ CREATE TABLE
 
 -- カテゴリ名を設定
 INSERT INTO categories (category)
-VALUES ('カテゴリ1'), ('カテゴリ2'), ('カテゴリ3'), ('カテゴリ4');
+VALUES ('YouTube'), ('アニメ&ゲーム'), ('うんどう'), ('そのた');
 
 -- ユーザー名を初期設定
 INSERT INTO users (name, email, password)
@@ -87,5 +87,5 @@ VALUES
 -- 投稿を初期設定
 INSERT INTO posts (user_id, category_id, content)
 VALUES 
-  (1, 1, '学校が終わったよ'),
-  (1, 2, '今から友達と遊ぶよ');
+  (1, 4, '学校やっとおわったー！'),
+  (1, 3, '鬼ごっこ楽しい！');

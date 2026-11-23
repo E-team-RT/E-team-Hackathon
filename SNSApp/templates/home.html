@@ -9,69 +9,72 @@ page_css %}
 {% block content %}
 <div>
   <main>
-
-    <!-- ユーザー名の検索ウィンドウ -->
-    <section>
-      <h1>よりみちをしらべる</h1>
-      <form action="/username_search" method="post">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-        <input type="search" name="username_search" placeholder="だれのよりみちをみる？">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-        <div class="flash-messages">
-          {% for category, message in messages %}
-          <div class="flash flash-{{ category }}">
-            {{ message }}
-          </div>
-          {% endfor %}
-        </div>
-        {% endif %}
-        {% endwith %}
-        <div>
-            <button type="submit">
-                みる
-            </button>
-        </div>
-      </form>
-    </section>
-
-    <!--  カテゴリの検索ウィンドウ -->
-    <section class="category-section">
-      <h2>なかまをえらぶ</h2>
-
-      <div class="category-list">
-        <button type="button" class="category-button">🎮 ゲーム</button>
-        <button type="button" class="category-button">📚 マンガ</button>
-        <button type="button" class="category-button">🍭 おかし</button>
-        <button type="button" class="category-button">📺 YouTube</button>
-      </div>
-    </section>
-
-    {% if posts and posts|length > 0 %}
-    <section class="post-list">
-      {% for post in posts %}
-      <div class="post-card">
-        <div class="post-content">
-          <div class="post-header">
-            <div class="post-user">
-              <span class="display-name">{{ post.name }}</span>
+    <div class="search-area">
+      <!-- ユーザー名の検索ウィンドウ -->
+      <section class="namesearch">
+        <h2>🍭よりみちをみる🍭</h2>
+        <form class="name-searchform" action="/username_search" method="post">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <input class="searchinput" type="search" name="username_search" placeholder="だれのよりみちをみる？">
+          {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">
+              {{ message }}
             </div>
-            <div class="post-time">{{ post.created_at }}</div>
-            <div class="category">{{ post.category}}</div>
+            {% endfor %}
           </div>
-          <div class="post-body">
-            {{ post.content }}
+          {% endif %}
+          {% endwith %}
+          <div class="searchbutton">
+              <button type="submit">
+                  みる
+              </button>
+          </div>
+        </form>
+      </section>
+
+      <!--  カテゴリの検索ウィンドウ -->
+      <section class="category-section">
+        <h2>🍭なかまをえらぶ🍭</h2>
+
+        <div class="category-list">
+          <a href="/category_search/1" class="category-button">YouTube</a>
+          <a href="/category_search/2" class="category-button">アニメ&ゲーム</a>
+          <a href="/category_search/3" class="category-button">うんどう</a> 
+          <a href="/category_search/4" class="category-button">そのた</a>               
+        </div>
+      </section>
+    </div>
+
+    <div class="posts-area">
+      <h2>🍀みんなのよりみち🍀</h2>
+      {% if posts and posts|length > 0 %}
+      <section class="post-list">
+        {% for post in posts %}
+        <div class="post-card">
+          <div class="post-content">
+            <div class="post-header">
+              <div class="post-user">
+                <span class="display-name">{{ post.name }}</span>
+              </div>
+              <div class="category">{{ post.category}}</div>
+              <div class="post-time">{{ post.created_at }}</div>
+            </div>
+            <div class="post-body">
+              {{ post.content }}
+            </div>
           </div>
         </div>
+        {% endfor %}
+      </section>
+      {% else %}
+      <div class="empty">
+        <p>よりみちがありません。</p>
       </div>
-      {% endfor %}
-    </section>
-    {% else %}
-    <div class="empty">
-      <p>よりみちがありません。</p>
+      {% endif %}
     </div>
-    {% endif %}
-
   </main>
 </div>
 {% endblock %}
