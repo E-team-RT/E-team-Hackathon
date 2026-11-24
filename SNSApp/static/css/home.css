@@ -54,6 +54,12 @@
     --capsule-color: #FFFF99;
 }
 
+/*カテゴリボタン内の文字を中央ぞろえ*/
+.category-button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
 
 .category-button:hover {
     background: var(--color-cream);
