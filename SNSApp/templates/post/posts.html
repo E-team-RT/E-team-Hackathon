@@ -8,11 +8,11 @@
 {% endblock %}
 
 	{# カテゴリボタン等home.htmlと合わせています #}
+	{# カテゴリ選択のカード #}
 {% block content %}
-<h1>とうこうしてみよう</h1>
-
-
-<div class="category-section">
+<div class="search-area">
+	<section class="category-section">
+<h2>とうこうしてみよう🍭</h2>
 	{# カテゴリ選択仮置き #}
 	<div class="category-list">
 	<a class="category-button {% if category == '1' %}active{% endif %}" href="/posts/1">YouTube</a>
@@ -20,12 +20,15 @@
 	<a class="category-button {% if category == '3' %}active{% endif %}" href="/posts/3">うんどう</a>
 	<a class="category-button {% if category == '4' %}active{% endif %}" href="/posts/4">そのた</a>
 </div>	
-</div>
+	</section>
+	</div>
 	{# Flaskの変数名が不明 #}
 {% if category %}
+<div class="posts-area">
 	{# カテゴリが選択されているとフォームを出す #}
-	<p>{{ category_name }}</p>
+	<h2>🍀{{ category_name }}のよりみち🍀</h2>
 	{% include 'post/post.html' %}
+	</div>
 	{% endif %}
 {% endblock %}
 
