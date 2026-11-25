@@ -23,7 +23,8 @@ class DB:
            # カーソルクラス（辞書型でフェッチ）
            # 追記：カラム名で参照できる（コードが読みやすい）row['email']など。通常のカーソルは数値インデックスで参照row[1]。
            cursorclass=pymysql.cursors.DictCursor,
-           autocommit=True
+           autocommit=True,
+           init_command="SET time_zone = '+09:00'"
            
        )
        # コネクションプールの初期化
