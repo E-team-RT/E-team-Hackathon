@@ -10,6 +10,22 @@
 	{# カテゴリボタン等home.htmlと合わせています #}
 	{# カテゴリ選択のカード #}
 {% block content %}
+
+	{# 投稿完了などのメッセージ表示 #}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-messages">
+	{% for cat, message in messages %}
+	<div class="flash flash-{{ cat }}">
+		{{ message }}
+	</div>
+	{% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+
+
 <div class="search-area">
 	<section class="category-section">
 <h2>🍭とうこうしてみよう🍭</h2>
@@ -22,7 +38,7 @@
 </div>	
 	</section>
 	</div>
-	{# Flaskの変数名が不明 #}
+	
 {% if category %}
 <div class="posts-area">
 	{# カテゴリが選択されているとフォームを出す #}
