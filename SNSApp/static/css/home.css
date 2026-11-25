@@ -127,5 +127,15 @@
     margin-left: auto;
 }
 
+/*投稿カードの表示崩れ修正メディアクエリ*/
 
+@media (max-width: 1024px){
+	.post-header{
+		flex-wrap: wrap;
+	}
+	.post-time{
+		margin-left: 0;
+	}
+
+}
 
