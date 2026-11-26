@@ -16,6 +16,8 @@ FLUSH PRIVILEGES;
 
 USE snsapp;
 
+SET time_zone = '+09:00';
+
 -- ユーザーテーブル作成
 CREATE TABLE
     users (
