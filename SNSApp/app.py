@@ -325,7 +325,7 @@ def posts_search_by_name():
         flash('ともだちのよりみちがありません', 'error')
         return redirect(url_for('home_view'))        
     for post in posts:
-        post['created_at'] = post['created_at'].astimezone(ZoneInfo('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M')
+        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts, name=name)
 
 # カテゴリボタンで投稿閲覧
@@ -336,7 +336,7 @@ def posts_search_by_category(category_id):
         return redirect(url_for('login_view'))
     posts = Post.get_posts_by_category(category_id)     
     for post in posts:
-        post['created_at'] = post['created_at'].astimezone(ZoneInfo('Asia/Tokyo')).strftime('%Y-%m-%d %H:%M')
+        post['created_at'] = post['created_at'].strftime('%Y-%m-%d %H:%M')
     return render_template('home.html', posts=posts)
     
 

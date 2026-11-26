@@ -78,7 +78,7 @@ class Post:
         conn = db_pool.get_conn()
         try:
             with conn.cursor() as cur:
-                sql = "SELECT * FROM posts WHERE  deleted_at IS NULL ORDER BY created_at DESC;"
+                sql = "SELECT * FROM posts WHERE  deleted_at IS NULL AND DATE(created_at) = CURDATE() ORDER BY created_at DESC;"
                 cur.execute(sql)
                 posts = cur.fetchall()
             return posts
@@ -157,7 +157,9 @@ class Post:
                 FROM posts as p 
                 JOIN users as u on p.user_id = u.id
                 JOIN categories as c on p.category_id = c.id
-                WHERE u.name=%s AND p.deleted_at IS NULL;"""
+                WHERE u.name=%s 
+                AND DATE(p.created_at) = CURDATE()
+                AND p.deleted_at IS NULL;"""
                 cur.execute(sql, (name,))
                 posts = cur.fetchall()
             return posts
@@ -178,7 +180,9 @@ class Post:
                 FROM posts as p 
                 JOIN users as u on p.user_id = u.id
                 JOIN categories as c on p.category_id = c.id
-                WHERE c.id=%s AND p.deleted_at IS NULL;"""
+                WHERE c.id=%s 
+                AND DATE(p.created_at) = CURDATE()
+                AND p.deleted_at IS NULL;"""
                 cur.execute(sql, (category_id,))
                 posts = cur.fetchall()
             return posts
